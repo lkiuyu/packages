@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dae
-PKG_VERSION:=0.2.0
+PKG_VERSION:=0.2.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).zip
 PKG_SOURCE_URL:=https://github.com/daeuniverse/dae/releases/download/v$(PKG_VERSION)/dae-full-src.zip?
-PKG_HASH:=f24d7d922abe347102024d495badcb1f8292aacff4183586037c3865c03ac3e7
+PKG_HASH:=884117b067f00c0ab39e0c6ae4e064c62f3a6b69eb2b8916dff2d619eeca1126
 
 PKG_LICENSE:=AGPL-3.0-only
 PKG_LICENSE_FILE:=LICENSE
@@ -43,19 +43,22 @@ define Package/dae
   TITLE:=A lightweight and high-performance transparent proxy solution
   # You need enable KERNEL_DEBUG_INFO_BTF and KERNEL_BPF_EVENTS
   DEPENDS:=$(GO_ARCH_DEPENDS) $(BPF_DEPENDS)  \
-    +ca-bundle +kmod-sched-core +kmod-sched-bpf +kmod-xdp-sockets-diag
+    +ca-bundle +kmod-sched-core +kmod-sched-bpf +kmod-xdp-sockets-diag \
+    +dae-geoip +dae-geosite
 endef
 
 define Package/dae-geoip
   $(call Package/dae/Default)
   TITLE:=geoip for dae
-  DEPENDS:=+dae +v2ray-geoip
+  DEPENDS:=+v2ray-geoip
+  PKGARCH:=all
 endef
 
 define Package/dae-geosite
   $(call Package/dae/Default)
   TITLE:=geosite for dae
-  DEPENDS:=+dae +v2ray-geosite
+  DEPENDS:=+v2ray-geosite
+  PKGARCH:=all
 endef
 
 define Package/dae/description

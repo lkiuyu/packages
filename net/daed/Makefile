@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=daed
-PKG_VERSION:=0.1.1
+PKG_VERSION:=0.3.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/daeuniverse/daed.git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
-PKG_MIRROR_HASH:=9f552a02e667ceff637899e606a96c130752eb2fe0ea1551f2d2984e81d4294c
+PKG_MIRROR_HASH:=f2ebed7ea0677f4c4dda1e98dd68d4176fdd27eb000d311dfded875a62324774
 
 PKG_LICENSE:=AGPL-3.0-only MIT
 PKG_LICENSE_FILES:=LICENSE wing/LICENSE
@@ -48,19 +48,22 @@ define Package/daed
   TITLE:=A Modern Dashboard For dae
   # You need enable KERNEL_DEBUG_INFO_BTF and KERNEL_BPF_EVENTS
   DEPENDS:=$(GO_ARCH_DEPENDS) $(BPF_DEPENDS) \
-    +ca-bundle +kmod-sched-core +kmod-sched-bpf +kmod-xdp-sockets-diag
+    +ca-bundle +kmod-sched-core +kmod-sched-bpf +kmod-xdp-sockets-diag \
+    +daed-geoip +daed-geosite
 endef
 
 define Package/daed-geoip
   $(call Package/daed/Default)
   TITLE:=geoip for daed
-  DEPENDS:=+daed +v2ray-geoip
+  DEPENDS:=+v2ray-geoip
+  PKGARCH:=all
 endef
 
 define Package/daed-geosite
   $(call Package/daed/Default)
   TITLE:=geosite for daed
-  DEPENDS:=+daed +v2ray-geosite
+  DEPENDS:=+v2ray-geosite
+  PKGARCH:=all
 endef
 
 define Package/daed/description
@@ -78,7 +81,7 @@ define Download/daed-web
 	URL:=https://github.com/daeuniverse/daed/releases/download/v$(PKG_VERSION)
 	URL_FILE:=web.zip
 	FILE:=$(WEB_FILE)
-	HASH:=636ab391ee888df7b0c8fe07eada3d2d2e0bea5cca91e6a07fae343a793e6ae0
+	HASH:=0db28fbf1803484b989b7545e8ad560cc969cc842346cbae4a2f9efe25cceb57
 endef
 
 define Build/Prepare
